@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const autoBind = require('auto-bind');
 
 class StateHelpers {
@@ -13,15 +14,13 @@ class StateHelpers {
     ctx.state.ctx = ctx;
 
     // add flash messages to state
-    if (typeof ctx.flash === 'function')
+    if (_.isFunction(ctx.flash) && _.isObject(ctx.session))
       ctx.state.flash = () => {
-        return {
-          success: ctx.flash('success'),
-          error: ctx.flash('error'),
-          info: ctx.flash('info'),
-          warning: ctx.flash('warning'),
-          question: ctx.flash('question')
-        };
+        if (!_.isObject(ctx.session.flash)) return {};
+        return _.zipObject(
+          _.keys(ctx.session.flash),
+          _.keys(ctx.session.flash).map(key => ctx.flash(key))
+        );
       };
 
     return next();
