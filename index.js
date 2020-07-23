@@ -1,11 +1,11 @@
 const _ = require('lodash');
-const autoBind = require('auto-bind');
 
 class StateHelpers {
   constructor(locals = {}) {
     this.locals = locals;
-    autoBind(this);
+    this.middleware = this.middleware.bind(this);
   }
+
   middleware(ctx, next) {
     // TODO: secure this with whitelisted keys
     ctx.state = Object.assign(ctx.state, this.locals);
@@ -19,7 +19,7 @@ class StateHelpers {
         if (!_.isObject(ctx.session.flash)) return {};
         return _.zipObject(
           _.keys(ctx.session.flash),
-          _.keys(ctx.session.flash).map(key => ctx.flash(key))
+          _.keys(ctx.session.flash).map((key) => ctx.flash(key))
         );
       };
 
