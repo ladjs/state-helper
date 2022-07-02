@@ -7,11 +7,7 @@ class StateHelpers {
   }
 
   middleware(ctx, next) {
-    // TODO: secure this with whitelisted keys
     ctx.state = Object.assign(ctx.state, this.locals);
-
-    // add `ctx` object to the state for views
-    ctx.state.ctx = ctx;
 
     // add flash messages to state
     ctx.state.flash = () => {
