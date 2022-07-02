@@ -9,9 +9,6 @@ class StateHelpers {
   middleware(ctx, next) {
     ctx.state = Object.assign(ctx.state, this.locals);
 
-    // csrf support
-    ctx.state.csrf = ctx.csrf;
-
     // add flash messages to state
     ctx.state.flash = () => {
       if (
