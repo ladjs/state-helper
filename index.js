@@ -37,6 +37,8 @@ class StateHelpers {
         ctx.set('Pragma', 'no-cache');
         ctx.set('Expires', '0');
       }
+
+      return obj;
     };
 
     return next();
